@@ -1,0 +1,42 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width,initial-scale=1" name="viewport">
+        <title>Admin | Nexora</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="appNav">
+        </div>
+        <main class="page-shell">
+            <div class="container-fluid container-xxl px-3 px-lg-4">
+                <div class="page-header">
+                    <span class="text-primary fw-bold small">ADMIN CONSOLE</span>
+                    <h1 class="mt-2">Nexora operations</h1>
+                    <p class="text-secondary">Monitor platform health, community reports and usage.</p>
+                </div>
+                <div class="row g-3" id="adminStats">
+                    <div class="loading-state">
+                        Loading admin data...
+                    </div>
+                </div>
+                <section class="card-soft mt-4">
+                    <h4>Popular skills</h4>
+                    <div class="d-flex flex-wrap gap-2 mt-3" id="topSkills">
+                    </div>
+                </section>
+                <section class="card-soft mt-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Community reports</h4>
+                        <span class="small text-secondary">Review and resolve reports</span>
+                    </div>
+                    <div class="mt-3" id="reports">
+                    </div>
+                </section>
+            </div>
+        </main>
+        <script src="/js/main.js"></script>
+        <script src="/js/admin.js"></script>
+    </body>
+</html>

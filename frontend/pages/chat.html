@@ -1,0 +1,52 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <title>Chat | Nexora</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="appNav">
+        </div>
+        <main class="page-shell">
+            <div class="container-fluid container-xxl px-3 px-lg-4">
+                <div class="page-header">
+                    <span class="text-primary fw-bold small">REAL-TIME COLLABORATION</span>
+                    <h1 class="mt-2">Chat</h1>
+                    <p class="text-secondary">Coordinate your next skill exchange without leaving Nexora.</p>
+                </div>
+                <section class="card-soft chat-shell p-0">
+                    <div class="row g-0 h-100">
+                        <div class="col-md-4 chat-sidebar p-3">
+                            <label class="form-label fw-semibold">Conversations</label>
+                            <select class="form-select" id="partner">
+                                <option value="">Select a partner...</option>
+                            </select>
+                            <div class="small text-secondary mt-3" id="status">
+                                Connecting...
+                            </div>
+                        </div>
+                        <div class="col-md-8 d-flex flex-column">
+                            <div class="p-3 border-bottom">
+                                <strong id="partnerInfo">Choose a partner</strong>
+                            </div>
+                            <div class="chat-messages flex-grow-1" id="messages">
+                            </div>
+                            <form class="p-3 border-top" id="form">
+                                <div class="input-group">
+                                    <input autocomplete="off" class="form-control" id="text" maxlength="2000" placeholder="Write a message...">
+                                    <button class="btn btn-primary">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/chat.js"></script>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width,initial-scale=1" name="viewport">
+        <title>Analytics | Nexora</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="appNav">
+        </div>
+        <main class="page-shell">
+            <div class="container-fluid container-xxl px-3 px-lg-4">
+                <div class="page-header">
+                    <span class="text-primary fw-bold small">YOUR PROGRESS</span>
+                    <h1 class="mt-2">Learning analytics</h1>
+                    <p class="text-secondary">See how your skill exchange activity is growing.</p>
+                </div>
+                <div class="row g-3" id="analyticsCards">
+                    <div class="loading-state">
+                        Loading analytics...
+                    </div>
+                </div>
+                <section class="card-soft mt-4">
+                    <h4>Completed sessions</h4>
+                    <div class="analytics-bars mt-4" id="monthly">
+                    </div>
+                </section>
+                <section class="card-soft mt-4">
+                    <h4>Learning snapshot</h4>
+                    <div class="row g-3 mt-1" id="snapshot">
+                    </div>
+                </section>
+            </div>
+        </main>
+        <script src="/js/main.js"></script>
+        <script src="/js/analytics.js"></script>
+    </body>
+</html>
