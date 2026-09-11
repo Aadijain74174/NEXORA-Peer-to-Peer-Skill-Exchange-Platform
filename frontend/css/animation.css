@@ -1,0 +1,156 @@
+/* =================================
+   NEXORA UI ANIMATIONS
+   ================================= */
+
+/* Page entrance */
+main,
+.page-content {
+    animation: nxPageIn 0.5s ease-out;
+}
+
+@keyframes nxPageIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Cards */
+.card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(24, 32, 51, 0.10);
+}
+
+
+/* Buttons */
+.btn {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+
+/* Form inputs */
+.form-control,
+.form-select {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    transform: translateY(-1px);
+}
+
+
+/* Links */
+a {
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+/* Images */
+img {
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+
+/* Skill / feature style elements */
+.skill-card,
+.feature-card,
+.match-card,
+.session-card,
+.request-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.skill-card:hover,
+.feature-card:hover,
+.match-card:hover,
+.session-card:hover,
+.request-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(24, 32, 51, 0.09);
+}
+
+
+/* Alerts */
+.alert {
+    animation: nxAlertIn 0.35s ease-out;
+}
+
+@keyframes nxAlertIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Tables */
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+
+/* Navbar */
+.app-navbar {
+    transition:
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+
+/* Loading / disabled buttons */
+.btn:disabled {
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* Accessibility:
+   respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

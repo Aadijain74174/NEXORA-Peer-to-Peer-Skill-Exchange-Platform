@@ -11,10 +11,59 @@ function skillArray(value) {
 const availabilityDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 function renderAvailability(slots = []) {
     const map = new Map(slots.map((slot) => [slot.day, slot]));
-    document.getElementById("availabilitySlots").innerHTML = availabilityDays.map((day) => {
-        const slot = map.get(day) || {};
-        return `<div class="col-md-6 col-xl-4"><div class="availability-slot"><label class="form-check-label"><input class="form-check-input me-2" type="checkbox" data-day="${day}" ${slot.start ? "checked" : ""}>${day}</label><div class="d-flex gap-2 mt-2"><input class="form-control form-control-sm" type="time" data-start="${day}" value="${slot.start || "18:00"}"><input class="form-control form-control-sm" type="time" data-end="${day}" value="${slot.end || "20:00"}"></div></div></div>`;
-    }).join("");
+
+    document.getElementById("availabilitySlots").innerHTML =
+        availabilityDays.map((day) => {
+            const slot = map.get(day) || {};
+
+            return `
+                <div class="col-md-6 col-xl-4">
+                    <div class="availability-slot">
+
+                        <label class="form-check-label fw-semibold">
+                            <input
+                                class="form-check-input me-2"
+                                type="checkbox"
+                                data-day="${day}"
+                                ${slot.start ? "checked" : ""}
+                            >
+                            ${day}
+                        </label>
+
+                        <div class="row g-2 mt-2">
+
+                            <div class="col-6">
+                                <label class="small text-secondary mb-1 d-block">
+                                    Starting Time
+                                </label>
+
+                                <input
+                                    class="form-control form-control-sm"
+                                    type="time"
+                                    data-start="${day}"
+                                    value="${slot.start || "18:00"}"
+                                >
+                            </div>
+
+                            <div class="col-6">
+                                <label class="small text-secondary mb-1 d-block">
+                                    Ending Time
+                                </label>
+
+                                <input
+                                    class="form-control form-control-sm"
+                                    type="time"
+                                    data-end="${day}"
+                                    value="${slot.end || "20:00"}"
+                                >
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            `;
+        }).join("");
 }
 
 function getAvailabilitySlots() {

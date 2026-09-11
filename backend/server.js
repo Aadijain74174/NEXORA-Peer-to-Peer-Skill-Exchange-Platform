@@ -39,6 +39,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/skills", require("./routes/skills"));
 app.use("/api/matches", require("./routes/matches"));
+app.use("/api/contact", require("./routes/contact"));
 app.use("/api/requests", require("./routes/requests"));
 app.use("/api/sessions", require("./routes/sessions"));
 app.use("/api/reviews", require("./routes/reviews"));

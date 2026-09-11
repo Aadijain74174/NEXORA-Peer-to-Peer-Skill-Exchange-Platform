@@ -108,6 +108,7 @@ function renderNavbar() {
         ["calendar", "Calendar", "/pages/calendar.html"],
         ["analytics", "Analytics", "/pages/analytics.html"],
         ["credits", "Credits", "/pages/credits.html"],
+        ["contact", "Contact Us", "/pages/contact.html"],
     ];
 
     if (!user) {
