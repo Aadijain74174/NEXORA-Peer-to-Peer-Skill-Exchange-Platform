@@ -38,25 +38,108 @@ Nexora is a B.Tech CSE full-stack project for peer-to-peer learning. Users can p
 ## Folder structure
 
 ```text
-NEXORA/
+NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
+│
 ├── backend/
 │   ├── config/
+│   │   └── db.js
+│   │
 │   ├── middleware/
+│   │   ├── admin.js
+│   │   └── auth.js
+│   │
 │   ├── models/
+│   │   ├── User.js
+│   │   ├── Skill.js
+│   │   ├── ExchangeRequest.js
+│   │   ├── Session.js
+│   │   ├── Message.js
+│   │   ├── Notification.js
+│   │   ├── Review.js
+│   │   ├── CreditTransaction.js
+│   │   └── Report.js
+│   │
 │   ├── routes/
+│   │   ├── auth.js
+│   │   ├── users.js
+│   │   ├── skills.js
+│   │   ├── matches.js
+│   │   ├── requests.js
+│   │   ├── sessions.js
+│   │   ├── messages.js
+│   │   ├── notifications.js
+│   │   ├── reviews.js
+│   │   ├── credits.js
+│   │   ├── reports.js
+│   │   ├── analytics.js
+│   │   └── admin.js
+│   │
 │   └── server.js
+│
 ├── frontend/
 │   ├── assets/
+│   │   └── nexora-logo.png
+│   │
 │   ├── css/
+│   │   └── style.css
+│   │
 │   ├── js/
+│   │   ├── main.js
+│   │   ├── login.js
+│   │   ├── register.js
+│   │   ├── dashboard.js
+│   │   ├── profile.js
+│   │   ├── skills.js
+│   │   ├── find-skills.js
+│   │   ├── matches.js
+│   │   ├── requests.js
+│   │   ├── sessions.js
+│   │   ├── session-room.js
+│   │   ├── chat.js
+│   │   ├── notifications.js
+│   │   ├── calendar.js
+│   │   ├── reviews.js
+│   │   ├── credits.js
+│   │   ├── analytics.js
+│   │   ├── admin.js
+│   │   └── view-profile.js
+│   │
 │   ├── pages/
+│   │   ├── login.html
+│   │   ├── register.html
+│   │   ├── dashboard.html
+│   │   ├── profile.html
+│   │   ├── find-skills.html
+│   │   ├── matches.html
+│   │   ├── requests.html
+│   │   ├── sessions.html
+│   │   ├── session-room.html
+│   │   ├── chat.html
+│   │   ├── notifications.html
+│   │   ├── calendar.html
+│   │   ├── reviews.html
+│   │   ├── credits.html
+│   │   ├── analytics.html
+│   │   ├── admin.html
+│   │   ├── skills.html
+│   │   └── view-profile.html
+│   │
 │   └── index.html
+│
 ├── docs/
+│   ├── DEVELOPMENT_GUIDE.md
+│   ├── PROJECT_STRUCTURE.md
+│   ├── API_OVERVIEW.md
+│   └── CODE_STYLE.md
+│
 ├── .env.example
 ├── .gitignore
+├── .editorconfig
 ├── package.json
 ├── package-lock.json
-└── README.md
+├── README.md
+├── START_HERE.md
+└── FINAL_SETUP.md
 ```
 
 ## Setup
