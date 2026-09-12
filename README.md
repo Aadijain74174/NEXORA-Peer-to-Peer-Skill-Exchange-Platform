@@ -1,41 +1,164 @@
-## Project folder rule
-
-Keep one project root only: `Nexora-Peer-to-Peer-Skill-Exchange/`. Inside it, keep `backend/`, `frontend/`, and `docs/`. Do not create a second nested `NEXORA` folder.
-
 # NEXORA — Peer-to-Peer Skill Exchange Platform
 
-Nexora is a B.Tech CSE full-stack project for peer-to-peer learning. Users can publish the skills they can teach, discover complementary learners, exchange requests, schedule sessions, chat in real time, receive notifications, build reputation and track learning goals.
+Nexora is a B.Tech CSE full-stack web application designed for peer-to-peer learning and skill exchange. Users can publish the skills they can teach, discover complementary learners, send exchange requests, schedule learning sessions, communicate through real-time chat, receive notifications, rate completed sessions, earn skill credits, track goals, and build a reputation through trust and reviews.
 
-## Technology stack
+## Project Highlights
 
-- Frontend: HTML5, CSS3, Vanilla JavaScript, Bootstrap 5
-- Backend: Node.js, Express.js
-- Database: MongoDB + Mongoose
-- Authentication: JWT + bcryptjs
-- Real-time communication: Socket.IO
-
-## Main features
-
-- Registration and JWT login
-- Profile and skill management
-- Smart skill matching with an explainable score
-- Skill partner search and filters
-- Exchange requests with accept/reject/cancel
-- Session scheduling using partner name or email
-- Dedicated protected Session Room with Join Session
-- Monthly calendar backed by real sessions
-- One-to-one real-time chat with MongoDB history
-- Live notification badge and notification center
-- Completed-session ratings and reviews
-- Trust score based on completed sessions and ratings
-- Skill credits with transparent earned/spent transaction history
-- Learning analytics and achievement badges
-- Weekly availability slots for partners
-- Community reporting and admin moderation
+- Peer-to-peer skill teaching and learning
+- Public Explore Skills experience
+- User profiles with teaching and learning skills
+- Smart skill matching with explainable compatibility scores
+- Skill search and filtering
+- Exchange requests with accept, reject, and cancel actions
+- Session scheduling using a partner's name or email
+- Protected Session Room with Join Session support
+- Monthly calendar backed by scheduled sessions
+- One-to-one real-time chat using Socket.IO
+- Notification center and unread notification badge
+- Ratings and reviews after eligible sessions
+- Trust score and user reputation
+- Skill credits with transaction history
 - Learning goals and progress tracking
-- Responsive, shared Nexora navigation and design system
+- Achievement badges
+- Weekly availability slots with starting and ending time
+- Community reporting and admin moderation
+- Analytics dashboard
+- Contact Us form
+- Forgot Password and Reset Password flow
+- Email support through the Nexora mailer configuration
+- Professional shared navigation
+- Responsive UI and lightweight page animations
+- About Us page
 
-## Folder structure
+## Technology Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, Vanilla JavaScript, Bootstrap 5 |
+| Backend | Node.js, Express.js |
+| Database | MongoDB + Mongoose |
+| Authentication | JWT + bcryptjs |
+| Real-time communication | Socket.IO |
+| Email | Nodemailer / Gmail SMTP configuration |
+| Package management | npm |
+
+## Application Flow
+
+```text
+Visitor
+   |
+   +--> Home / About Us / Explore Skills
+   |
+   +--> Register / Login
+              |
+              v
+        User Dashboard
+              |
+    +---------+---------+----------------+
+    |         |         |                |
+  Skills   Matches   Requests         Profile
+    |         |         |                |
+    +---------+---------+----------------+
+              |
+          Sessions
+              |
+      +-------+-------+
+      |               |
+   Calendar          Chat
+      |               |
+ Notifications   Reviews/Ratings
+              |
+       Credits / Trust
+              |
+       Learning Goals
+```
+
+## Core Modules
+
+### 1. Authentication
+
+Users can register and log in securely. Passwords are hashed and authenticated sessions use JWT.
+
+Password recovery includes:
+- Forgot Password request
+- Time-limited reset token
+- Reset Password page
+- Optional email delivery through the configured mailer
+
+### 2. Profile and Skills
+
+Users can maintain their profile, teaching skills, learning skills, experience, education, learning goals, achievements, and weekly availability.
+
+Availability uses clear:
+- Starting Time
+- Ending Time
+
+A slot is accepted only when the ending time is later than the starting time.
+
+### 3. Explore Skills and Matching
+
+Visitors can open Explore Skills and browse available skill partners without being forced directly to the login page.
+
+The authenticated matching system provides explainable compatibility scores based on relevant profile and skill information.
+
+### 4. Exchange Requests
+
+Users can send requests to suitable partners and manage:
+- Received requests
+- Sent requests
+- Accept
+- Reject
+- Cancel
+
+### 5. Sessions and Calendar
+
+Users can schedule sessions with a partner using the partner's registered name or email.
+
+Scheduled sessions are visible to the relevant users and can be opened through the Session Room / Join Session flow. The monthly calendar displays scheduled sessions.
+
+### 6. Real-Time Chat
+
+Nexora provides one-to-one messaging with:
+- Conversation history
+- MongoDB message persistence
+- Read/unread state
+- Socket.IO real-time communication
+
+### 7. Notifications
+
+Users receive application notifications for relevant activities. The shared navbar also provides an unread notification badge.
+
+### 8. Reviews and Trust
+
+Eligible completed sessions can be reviewed. Ratings and reviews contribute to the user's reputation and trust-related information.
+
+### 9. Skill Credits
+
+Completed learning exchanges can contribute to skill credits. Users can view their balance and transaction history.
+
+### 10. Learning Progress and Achievements
+
+Users can define learning goals, track progress, and earn achievement badges.
+
+### 11. Admin and Reporting
+
+The platform includes reporting and administrative moderation functionality for managing reported users and platform activity.
+
+### 12. Contact Us
+
+Visitors can submit:
+- Name
+- Email
+- Subject
+- Message
+
+Contact messages are stored in MongoDB for handling by the application.
+
+### 13. About Us
+
+The About Us page explains Nexora's purpose, peer learning model, skill exchange concept, and mission.
+
+## Folder Structure
 
 ```text
 NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
@@ -57,7 +180,9 @@ NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
 │   │   ├── Notification.js
 │   │   ├── Review.js
 │   │   ├── CreditTransaction.js
-│   │   └── Report.js
+│   │   ├── Report.js
+│   │   ├── ContactMessage.js
+│   │   └── PasswordResetToken.js
 │   │
 │   ├── routes/
 │   │   ├── auth.js
@@ -72,7 +197,11 @@ NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
 │   │   ├── credits.js
 │   │   ├── reports.js
 │   │   ├── analytics.js
-│   │   └── admin.js
+│   │   ├── admin.js
+│   │   └── contact.js
+│   │
+│   ├── services/
+│   │   └── mailer.js
 │   │
 │   └── server.js
 │
@@ -81,7 +210,9 @@ NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
 │   │   └── nexora-logo.png
 │   │
 │   ├── css/
-│   │   └── style.css
+│   │   ├── style.css
+│   │   ├── navbar.css
+│   │   └── animations.css
 │   │
 │   ├── js/
 │   │   ├── main.js
@@ -102,13 +233,17 @@ NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
 │   │   ├── credits.js
 │   │   ├── analytics.js
 │   │   ├── admin.js
-│   │   └── view-profile.js
+│   │   ├── view-profile.js
+│   │   ├── contact.js
+│   │   ├── forgot-password.js
+│   │   └── reset-password.js
 │   │
 │   ├── pages/
 │   │   ├── login.html
 │   │   ├── register.html
 │   │   ├── dashboard.html
 │   │   ├── profile.html
+│   │   ├── skills.html
 │   │   ├── find-skills.html
 │   │   ├── matches.html
 │   │   ├── requests.html
@@ -121,8 +256,11 @@ NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
 │   │   ├── credits.html
 │   │   ├── analytics.html
 │   │   ├── admin.html
-│   │   ├── skills.html
-│   │   └── view-profile.html
+│   │   ├── view-profile.html
+│   │   ├── contact.html
+│   │   ├── about.html
+│   │   ├── forgot-password.html
+│   │   └── reset-password.html
 │   │
 │   └── index.html
 │
@@ -140,7 +278,6 @@ NEXORA-Peer-to-Peer-Skill-Exchange-Platform/
 ├── README.md
 ├── START_HERE.md
 └── FINAL_SETUP.md
-```
 
 ## Setup
 
@@ -152,7 +289,9 @@ npm install
 
 ### 2. Create `.env`
 
-Copy `.env.example` to `.env` and set:
+Copy `.env.example` to `.env`.
+
+Typical local configuration:
 
 ```env
 PORT=5000
@@ -161,7 +300,16 @@ JWT_SECRET=replace_with_a_long_random_secret
 ADMIN_EMAIL=admin@example.com
 ```
 
-Make sure MongoDB is running locally, or replace `MONGO_URI` with a MongoDB Atlas connection string.
+If email delivery is enabled, also configure the mailer variables used by the project, for example:
+
+```env
+MAIL_USER=your-email@gmail.com
+MAIL_PASSWORD=your-google-app-password
+```
+
+Use a Google App Password rather than a normal Gmail password when using Gmail SMTP.
+
+Never commit `.env` or real credentials.
 
 ### 3. Start Nexora
 
@@ -171,7 +319,9 @@ npm start
 
 Open:
 
-`http://localhost:5000`
+```text
+http://localhost:5000
+```
 
 For development with automatic restart:
 
@@ -179,34 +329,84 @@ For development with automatic restart:
 npm run dev
 ```
 
-## Recommended two-user demo
+## Recommended Two-User Demo
 
 1. Register User A.
-2. Add a teaching skill and a learning skill.
+2. Add a skill User A can teach and a skill User A wants to learn.
 3. Register User B in another browser/incognito window.
 4. Add complementary skills to User B.
-5. Open Matches and send a request.
-6. Accept the request from User A.
-7. Use Chat to coordinate.
-8. Schedule a session using the partner's registered name/email.
-9. Verify both users can see the session and Join Session button.
-10. Open Calendar and Session Room.
-11. Mark the session completed.
-12. Submit a review from each eligible account.
-13. Verify rating, trust score, notifications and dashboard values update.
+5. Open Explore Skills / Find Skills and verify partner discovery.
+6. Open Matches and inspect the compatibility score and reasons.
+7. Send an exchange request.
+8. Accept the request from the other account.
+9. Use Chat to coordinate.
+10. Schedule a session using the partner's registered name or email.
+11. Verify both users can see the scheduled session and Join Session option.
+12. Open Calendar and Session Room.
+13. Complete the session.
+14. Submit eligible reviews.
+15. Verify dashboard, ratings, trust information, notifications, and credits update.
+16. Test Contact Us.
+17. Test Forgot Password / Reset Password.
 
-## Security / GitHub
+## Documentation
 
-Never commit `.env` or `node_modules/`. Commit `.env.example` and `package-lock.json`.
+- `docs/DEVELOPMENT_GUIDE.md` — where to make changes and how the application flows
+- `docs/PROJECT_STRUCTURE.md` — project architecture and folder responsibilities
+- `docs/API_OVERVIEW.md` — backend API route reference
+- `docs/CODE_STYLE.md` — coding and readability conventions
 
-Recommended `.gitignore` entries:
+## GitHub / Team Workflow
 
-```text
-node_modules/
-.env
-.DS_Store
+Before working:
+
+```bash
+git pull origin main
 ```
 
-## Important limitation
+For a feature:
 
-The Session Room is an authenticated collaboration room, not a custom WebRTC video-conferencing engine. If a meeting URL is provided, the room exposes it through an **Open meeting link** action rather than pretending Nexora contains a native video system.
+```bash
+git checkout -b feature/your-feature-name
+```
+
+After testing:
+
+```bash
+git add .
+git commit -m "Describe the change"
+git push -u origin feature/your-feature-name
+```
+
+Create a Pull Request on GitHub for team review.
+
+## Security
+
+Never commit:
+
+```text
+.env
+node_modules/
+real passwords
+API keys
+private database credentials
+```
+
+Commit `.env.example` and `package-lock.json`.
+
+## Future Scope
+
+Possible future improvements include:
+- AI-assisted skill recommendations
+- More advanced matching using availability, ratings, and interests
+- Session reminders
+- Email notifications for important events
+- More detailed analytics
+- Leaderboards and expanded gamification
+- Online deployment with MongoDB Atlas
+- Automated testing
+- Email verification
+
+## Project Note
+
+Nexora is designed as a peer-to-peer skill exchange platform rather than a traditional course marketplace. Its core idea is that users can be both learners and contributors: one user can teach a skill while learning another skill from the community.
