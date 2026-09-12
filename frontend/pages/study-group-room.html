@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Study Group | Nexora</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/navbar.css" rel="stylesheet">
+    <link href="/css/animations.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div id="appNav"></div>
+
+
+    <main class="container py-4">
+
+        <!-- Back Button -->
+        <div class="mb-3">
+
+            <a
+                href="/pages/study-groups.html"
+                class="btn btn-outline-secondary"
+            >
+                ← Back to Study Groups
+            </a>
+
+        </div>
+
+
+        <!-- Group Header -->
+        <section class="card-soft mb-4">
+
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+
+                <div>
+
+                    <span
+                        id="groupLevel"
+                        class="badge text-bg-primary mb-2"
+                    >
+                        Loading...
+                    </span>
+
+                    <h1
+                        id="groupName"
+                        class="fw-bold mb-2"
+                    >
+                        Loading Study Group...
+                    </h1>
+
+                    <p
+                        id="groupSkill"
+                        class="mb-2"
+                    >
+                        Skill: -
+                    </p>
+
+                    <p
+                        id="groupDescription"
+                        class="text-muted mb-0"
+                    >
+                        Loading description...
+                    </p>
+
+                </div>
+
+
+                <div class="text-md-end">
+
+                    <div
+                        id="groupMembersCount"
+                        class="fw-semibold mb-2"
+                    >
+                        👥 Members: -
+                    </div>
+
+                    <div
+                        id="groupCreator"
+                        class="text-muted small"
+                    >
+                        Created by: -
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Status -->
+        <div id="roomStatus"></div>
+
+
+        <div class="row g-4">
+
+            <!-- Members -->
+            <div class="col-lg-4">
+
+                <section class="card-soft">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <h4 class="fw-bold mb-0">
+                            👥 Members
+                        </h4>
+
+                    </div>
+
+
+                    <div id="membersList">
+
+                        <div class="text-muted">
+                            Loading members...
+                        </div>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <button
+                        id="leaveGroupBtn"
+                        class="btn btn-outline-danger w-100"
+                    >
+                        Leave Group
+                    </button>
+
+                </section>
+
+            </div>
+
+
+            <!-- Group Chat -->
+            <div class="col-lg-8">
+
+                <section class="card-soft">
+
+                    <h4 class="fw-bold mb-3">
+                        💬 Group Chat
+                    </h4>
+
+
+                    <div
+                        id="groupChatMessages"
+                        class="border rounded p-3 mb-3"
+                        style="height: 350px; overflow-y: auto;"
+                    >
+
+                        <div class="text-muted text-center py-5">
+                            Group chat will appear here.
+                        </div>
+
+                    </div>
+
+
+                    <form id="groupChatForm">
+
+                        <div class="input-group">
+
+                            <input
+                                type="text"
+                                id="groupChatInput"
+                                class="form-control"
+                                placeholder="Write a message..."
+                                autocomplete="off"
+                            >
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                Send
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+            </div>
+
+        </div>
+
+
+        <!-- Group Sessions -->
+        <section class="card-soft mt-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h4 class="fw-bold mb-0">
+                    📅 Group Sessions
+                </h4>
+
+                <button
+                    id="scheduleGroupSessionBtn"
+                    class="btn btn-primary"
+                >
+                    + Schedule Session
+                </button>
+
+            </div>
+
+
+            <div id="groupSessionsContainer">
+
+                <div class="text-muted text-center py-4">
+                    No group sessions loaded yet.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Schedule Group Session Modal -->
+    <div
+        class="modal fade"
+        id="groupSessionModal"
+        tabindex="-1"
+        aria-hidden="true"
+    >
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title fw-bold">
+                        Schedule Group Session
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                    ></button>
+
+                </div>
+
+
+                <form id="groupSessionForm">
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+
+                            <label
+                                for="sessionDate"
+                                class="form-label fw-semibold"
+                            >
+                                Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="sessionDate"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label
+                                for="sessionTime"
+                                class="form-label fw-semibold"
+                            >
+                                Starting Time
+                            </label>
+
+                            <input
+                                type="time"
+                                id="sessionTime"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label
+                                for="sessionDuration"
+                                class="form-label fw-semibold"
+                            >
+                                Duration (minutes)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="sessionDuration"
+                                class="form-control"
+                                min="15"
+                                max="240"
+                                value="60"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label
+                                for="sessionMode"
+                                class="form-label fw-semibold"
+                            >
+                                Mode
+                            </label>
+
+                            <select
+                                id="sessionMode"
+                                class="form-select"
+                            >
+
+                                <option value="Online">
+                                    Online
+                                </option>
+
+                                <option value="Offline">
+                                    Offline
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div>
+
+                            <label
+                                for="sessionMeetingLink"
+                                class="form-label fw-semibold"
+                            >
+                                Meeting Link
+                            </label>
+
+                            <input
+                                type="url"
+                                id="sessionMeetingLink"
+                                class="form-control"
+                                placeholder="https://meet.google.com/..."
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Schedule Session
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Bootstrap -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+
+
+    <!-- Main -->
+    <script src="/js/main.js"></script>
+
+
+    <!-- Study Group Room -->
+    <script src="/js/study-group-room.js"></script>
+
+</body>
+
+</html>

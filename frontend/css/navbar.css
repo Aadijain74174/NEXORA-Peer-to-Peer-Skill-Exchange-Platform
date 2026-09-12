@@ -1,20 +1,26 @@
-/* ================================
+/* =========================================
    NEXORA PROFESSIONAL NAVBAR
-   ================================ */
+   ========================================= */
 
 .app-navbar {
     background: #ffffff;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid #e8ebf2;
     box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
     min-height: 72px;
     z-index: 1000;
 }
 
+
+/* =========================================
+   BRAND
+   ========================================= */
+
 .brand-logo {
     display: flex;
     align-items: center;
     text-decoration: none;
-    margin-right: 24px;
+    margin-right: 28px;
+    flex-shrink: 0;
 }
 
 .brand-logo img {
@@ -24,17 +30,32 @@
     display: block;
 }
 
+
+/* =========================================
+   MAIN NAVIGATION
+   ========================================= */
+
 .nav-main-links {
+    display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
 }
 
 .nav-main-links .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     color: #475569;
     font-size: 14px;
     font-weight: 600;
-    padding: 10px 12px !important;
+
+    padding: 9px 11px !important;
+
     border-radius: 10px;
+
+    white-space: nowrap;
+
     transition:
         color 0.2s ease,
         background-color 0.2s ease,
@@ -52,26 +73,100 @@
     background: #eaf2ff;
 }
 
-/* Right-side navbar tools */
+
+/* =========================================
+   MORE DROPDOWN
+   ========================================= */
+
+.more-menu {
+    min-width: 210px;
+
+    margin-top: 8px;
+
+    padding: 8px;
+
+    border: 1px solid #e8ebf2;
+    border-radius: 14px;
+
+    box-shadow:
+        0 14px 35px rgba(15, 23, 42, 0.12);
+}
+
+.more-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 12px;
+
+    color: #475569;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    border-radius: 9px;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.more-menu .dropdown-item:hover {
+    color: #0d6efd;
+    background: #f1f5ff;
+    transform: translateX(2px);
+}
+
+.more-menu .dropdown-item.active {
+    color: #0d6efd;
+    background: #eaf2ff;
+}
+
+.more-icon {
+    width: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+}
+
+
+/* =========================================
+   RIGHT NAVBAR TOOLS
+   ========================================= */
 
 .navbar-tools {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-left: 20px;
+    gap: 6px;
+
+    margin-left: 18px;
+
+    flex-shrink: 0;
 }
 
 .nav-tool {
     position: relative;
+
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+
     gap: 7px;
+
     color: #475569;
     text-decoration: none;
+
     font-size: 14px;
     font-weight: 600;
-    padding: 9px 11px;
+
+    padding: 7px 9px;
+
     border-radius: 10px;
+
     transition:
         color 0.2s ease,
         background-color 0.2s ease,
@@ -89,85 +184,155 @@
     background: #eaf2ff;
 }
 
+
+/* =========================================
+   NOTIFICATIONS
+   ========================================= */
+
+.notification-tool {
+    width: 42px;
+    height: 42px;
+}
+
 .tool-icon {
-    font-size: 17px;
+    font-size: 18px;
     line-height: 1;
 }
 
-.tool-label {
-    white-space: nowrap;
-}
-
-/* Notification badge */
-
 .notification-badge {
-    min-width: 19px;
-    height: 19px;
+    position: absolute;
+
+    top: 2px;
+    right: 1px;
+
+    min-width: 18px;
+    height: 18px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     padding: 0 5px;
+
     border-radius: 50px;
+
     background: #dc3545;
     color: #ffffff;
-    font-size: 11px;
+
+    font-size: 10px;
     font-weight: 700;
+
+    border: 2px solid #ffffff;
 }
 
-/* User avatar */
+
+/* =========================================
+   PROFILE
+   ========================================= */
+
+.profile-tool {
+    padding-left: 7px;
+    padding-right: 10px;
+}
 
 .nav-avatar {
     width: 34px;
     height: 34px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     border-radius: 50%;
+
     background: #0d6efd;
     color: #ffffff;
+
     font-size: 14px;
     font-weight: 700;
+
+    flex-shrink: 0;
 }
 
 .user-name {
-    max-width: 110px;
+    max-width: 105px;
+
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-/* Logout */
+
+/* =========================================
+   LOGOUT
+   ========================================= */
 
 .logout-btn {
-    margin-left: 4px;
+    margin-left: 3px;
+
     font-weight: 600;
+
     border-radius: 9px;
+
     padding: 7px 13px;
+
+    white-space: nowrap;
 }
 
-/* Mobile */
+
+/* =========================================
+   TABLET / SMALL LAPTOP
+   ========================================= */
 
 @media (max-width: 1199.98px) {
 
-    .navbar-tools {
-        margin-left: 0;
-        margin-top: 12px;
-        padding-top: 12px;
-        border-top: 1px solid #e9ecef;
-        flex-wrap: wrap;
+    .app-navbar {
+        min-height: 68px;
+    }
+
+    .brand-logo {
+        margin-right: 18px;
+    }
+
+    .brand-logo img {
+        height: 39px;
     }
 
     .nav-main-links {
         padding-top: 12px;
+        gap: 2px;
     }
 
     .nav-main-links .nav-link {
         width: 100%;
+        justify-content: flex-start;
+    }
+
+    .navbar-tools {
+        margin-left: 0;
+        margin-top: 12px;
+
+        padding-top: 12px;
+
+        border-top: 1px solid #e8ebf2;
+
+        flex-wrap: wrap;
     }
 
     .navbar-tools .nav-tool {
         flex: 0 0 auto;
     }
+
+    .more-menu {
+        width: 100%;
+        margin-top: 4px;
+    }
 }
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
 
 @media (max-width: 575.98px) {
 
@@ -175,23 +340,32 @@
         min-height: 64px;
     }
 
+    .brand-logo {
+        margin-right: 10px;
+    }
+
     .brand-logo img {
         height: 36px;
     }
 
-    .tool-label {
-        display: inline;
-    }
-
     .navbar-tools {
-        gap: 5px;
+        gap: 4px;
     }
 
     .nav-tool {
-        padding: 8px;
+        padding: 7px;
+    }
+
+    .profile-tool {
+        padding: 5px;
+    }
+
+    .user-name {
+        max-width: 85px;
     }
 
     .logout-btn {
         margin-left: 0;
+        padding: 6px 10px;
     }
 }

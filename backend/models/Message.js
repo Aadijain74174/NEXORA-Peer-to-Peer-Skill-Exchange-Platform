@@ -19,6 +19,10 @@ const messageSchema = new mongoose.Schema({
         trim: true,
         maxlength: 2000,
     },
+    deleted: {
+    type: Boolean,
+    default: false,
+    },
     read: {
         type: Boolean,
         default: false,

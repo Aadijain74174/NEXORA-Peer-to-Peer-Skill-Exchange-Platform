@@ -25,6 +25,84 @@ router.get("/with/:userId", auth, async (req, res) => {
     }
 });
 
+router.delete("/:messageId", auth, async (req, res) => {
+    try {
+        const message = await Message.findById(
+            req.params.messageId
+        );
+
+        if (!message) {
+            return res.status(404).json({
+                success: false,
+                message: "Message not found.",
+            });
+        }
+
+        // Sirf message bhejne wala user delete kar sakta hai
+        if (
+            message.sender.toString() !==
+            String(req.user.id)
+        ) {
+            return res.status(403).json({
+                success: false,
+                message:
+                    "You can only delete your own messages.",
+            });
+        }
+
+        if (message.deleted) {
+            return res.status(400).json({
+                success: false,
+                message: "Message is already deleted.",
+            });
+        }
+
+        message.deleted = true;
+        message.text = "This message was deleted.";
+        await message.save();
+
+        const io = req.app.get("io");
+
+        if (io) {
+            io.to(`user:${message.receiver}`).emit(
+                "message_deleted",
+                {
+                    messageId: message._id,
+                    text: "This message was deleted.",
+                }
+            );
+
+            io.to(`user:${message.sender}`).emit(
+                "message_deleted",
+                {
+                    messageId: message._id,
+                    text: "This message was deleted.",
+                }
+            );
+        }
+
+        res.json({
+            success: true,
+            message: "Message deleted successfully.",
+            data: {
+                messageId: message._id,
+                deleted: true,
+                text: "This message was deleted.",
+            },
+        });
+    } catch (error) {
+        console.error(
+            "Delete message error:",
+            error.message
+        );
+
+        res.status(500).json({
+            success: false,
+            message: "Could not delete message.",
+        });
+    }
+});
+
 router.put("/with/:userId/read", auth, async (req, res) => {
     try {
         await Message.updateMany(
