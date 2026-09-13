@@ -122,30 +122,375 @@ router.post("/", auth, async (req, res) => {
     }
 });
 
-router.get("/", auth, async (req, res) => {
+/*
+ * SCHEDULE STUDY GROUP SESSION
+ */
+router.post("/group", auth, async (req, res) => {
     try {
-        const sessions = await Session.find({
-            $or: [{ teacher: req.user.id }, { learner: req.user.id }],
-        })
-            .populate("teacher learner", "name email")
-            .sort({ date: 1, time: 1 });
-        res.json({ success: true, sessions });
-    } catch {
-        res.status(500).json({ success: false, message: "Could not load sessions." });
+        const groupId = String(
+            req.body.groupId || ""
+        ).trim();
+
+        const skill = String(
+            req.body.skill || ""
+        ).trim();
+
+        const date = String(
+            req.body.date || ""
+        ).trim();
+
+        const time = String(
+            req.body.time || ""
+        ).trim();
+
+        const duration = Math.max(
+            15,
+            Math.min(
+                240,
+                Number(req.body.duration) || 60
+            )
+        );
+
+        const mode =
+            req.body.mode === "Offline"
+                ? "Offline"
+                : "Online";
+
+        const meetingLink = String(
+            req.body.meetingLink || ""
+        ).trim();
+
+
+        if (
+            !groupId ||
+            !skill ||
+            !date ||
+            !time
+        ) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Group, skill, date and time are required.",
+            });
+        }
+
+
+        if (
+            !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+            !/^\d{2}:\d{2}$/.test(time)
+        ) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Use a valid session date and time.",
+            });
+        }
+
+
+        const today =
+            new Date()
+                .toISOString()
+                .slice(0, 10);
+
+
+        if (date < today) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Session date cannot be in the past.",
+            });
+        }
+
+
+        if (meetingLink) {
+            try {
+                const parsedUrl =
+                    new URL(meetingLink);
+
+                if (
+                    ![
+                        "http:",
+                        "https:",
+                    ].includes(
+                        parsedUrl.protocol
+                    )
+                ) {
+                    throw new Error();
+                }
+
+            } catch {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Meeting link must be a valid http(s) URL.",
+                });
+            }
+        }
+
+
+        /*
+         * Load study group
+         */
+        const StudyGroup =
+            require("../models/StudyGroup");
+
+
+        const group =
+            await StudyGroup.findById(
+                groupId
+            ).populate(
+                "members creator",
+                "name email"
+            );
+
+
+        if (!group) {
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Study group not found.",
+            });
+        }
+
+
+        /*
+         * Check current user membership
+         */
+        const userId =
+            String(req.user.id);
+
+
+        const isMember =
+            (group.members || []).some(
+                (member) =>
+                    String(
+                        member._id ||
+                        member
+                    ) === userId
+            );
+
+
+        const isCreator =
+            String(
+                group.creator?._id ||
+                group.creator
+            ) === userId;
+
+
+        if (!isMember && !isCreator) {
+            return res.status(403).json({
+                success: false,
+                message:
+                    "You must be a member of this study group to schedule a session.",
+            });
+        }
+
+
+        /*
+         * Prevent duplicate/conflicting
+         * group session for the same group
+         */
+        const conflict =
+            await Session.findOne({
+                studyGroup: groupId,
+                status: "Scheduled",
+                date,
+                time,
+            });
+
+
+        if (conflict) {
+            return res.status(409).json({
+                success: false,
+                message:
+                    "This study group already has a session scheduled at this time.",
+            });
+        }
+
+
+        /*
+         * For group sessions:
+         *
+         * teacher = person who schedules
+         * learner = group creator
+         *
+         * studyGroup = actual group
+         */
+        const session =
+            await Session.create({
+                teacher: req.user.id,
+
+                learner:
+                    group.creator._id,
+
+                studyGroup: group._id,
+
+                skill,
+
+                date,
+
+                time,
+
+                duration,
+
+                mode,
+
+                meetingLink,
+            });
+
+
+        const populated =
+            await session.populate([
+                {
+                    path: "teacher",
+                    select: "name email",
+                },
+                {
+                    path: "learner",
+                    select: "name email",
+                },
+                {
+                    path: "studyGroup",
+                    select:
+                        "name skill level members creator",
+                },
+            ]);
+
+
+        /*
+         * Notify all group members
+         */
+        const memberIds =
+            (group.members || [])
+                .map(
+                    (member) =>
+                        member._id
+                )
+                .filter(
+                    (memberId) =>
+                        String(memberId) !==
+                        userId
+                );
+
+
+        const notifications =
+            memberIds.map(
+                (recipient) => ({
+                    recipient,
+
+                    sender:
+                        req.user.id,
+
+                    type: "session",
+
+                    relatedId:
+                        session._id,
+
+                    message:
+                        `${populated.teacher.name} scheduled a ${skill} group session on ${date} at ${time}.`,
+                })
+            );
+
+
+        if (
+            notifications.length
+        ) {
+            await Notification.insertMany(
+                notifications
+            );
+        }
+
+
+        /*
+         * Send realtime notifications
+         */
+        const io =
+            req.app.get("io");
+
+
+        if (io) {
+            memberIds.forEach(
+                (recipient) => {
+
+                    io.to(
+                        `user:${recipient}`
+                    ).emit(
+                        "notification",
+                        {
+                            type: "session",
+
+                            relatedId:
+                                session._id,
+
+                            message:
+                                `${populated.teacher.name} scheduled a ${skill} group session on ${date} at ${time}.`,
+                        }
+                    );
+
+                }
+            );
+        }
+
+
+        res.status(201).json({
+            success: true,
+            session: populated,
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Schedule group session error:",
+            error
+        );
+
+        res.status(400).json({
+            success: false,
+            message:
+                error.message ||
+                "Could not schedule group session.",
+        });
     }
 });
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/", auth, async (req, res) => {
     try {
-        const session = await Session.findOne({
-            _id: req.params.id,
-            $or: [{ teacher: req.user.id }, { learner: req.user.id }],
-        }).populate("teacher learner", "name email teachSkills learnSkills rating reviewCount");
+        const StudyGroup = require("../models/StudyGroup");
 
-        if (!session) return res.status(404).json({ success: false, message: "Session not found or access denied." });
-        res.json({ success: true, session });
-    } catch {
-        res.status(400).json({ success: false, message: "Invalid session ID." });
+        // Current user jis-jis study group ka member hai
+        const groups = await StudyGroup.find({
+            members: req.user.id,
+        }).select("_id");
+
+        const groupIds = groups.map((group) => group._id);
+
+        // User ki personal sessions + uske study-group sessions
+        const sessions = await Session.find({
+            $or: [
+                { teacher: req.user.id },
+                { learner: req.user.id },
+                { studyGroup: { $in: groupIds } },
+            ],
+        })
+            .populate("teacher learner", "name email")
+            .populate(
+                "studyGroup",
+                "name skill level members creator"
+            )
+            .sort({ date: 1, time: 1 });
+
+        res.json({
+            success: true,
+            sessions,
+        });
+    } catch (error) {
+        console.error("Load sessions error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Could not load sessions.",
+        });
     }
 });
 
