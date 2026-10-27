@@ -377,36 +377,107 @@ function renderNavbar() {
 
                         <!-- Profile -->
 
-                        <a
-                            class="nav-tool profile-tool ${page === "profile" ? "active" : ""}"
-                            href="/pages/profile.html"
-                            aria-label="Profile"
-                        >
-                            <span
-                                class="nav-avatar"
-                                id="navbarAvatar"
-                            >
-                                ${initial}
-                            </span>
+                       
+<!-- Profile Dropdown -->
+<div class="nav-item dropdown profile-dropdown-wrap">
 
-                            <span
-                                id="navbarUserName"
-                                class="tool-label user-name"
-                            >
-                                ${displayName}
-                            </span>
-                        </a>
+    <button
+        class="nav-tool profile-tool profile-dropdown-toggle dropdown-toggle"
+        type="button"
+        id="profileDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        aria-label="Open profile menu"
+    >
+        <span class="nav-avatar">${initial}</span>
+        <span class="tool-label user-name">${displayName}</span>
+    </button>
 
+    <ul
+        class="dropdown-menu dropdown-menu-end profile-dropdown-menu"
+        aria-labelledby="profileDropdown"
+    >
+        <li class="profile-menu-header">
+            <div class="profile-menu-avatar">${initial}</div>
+            <div class="profile-menu-details">
+                <div class="profile-menu-name">${displayName}</div>
+                <div class="profile-menu-email">
+                    ${escapeHtml(user.email || "")}
+                </div>
+            </div>
+        </li>
 
-                        <!-- Logout -->
+        <li><hr class="dropdown-divider"></li>
 
-                        <button
-                            class="btn btn-sm btn-outline-danger logout-btn"
-                            type="button"
-                            id="logoutBtn"
-                        >
-                            Logout
-                        </button>
+        <li class="profile-menu-section">ACCOUNT</li>
+        <li>
+            <a class="dropdown-item" href="/pages/profile.html">
+                <span>👤</span><span>My Profile</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/pages/dashboard.html">
+                <span>📊</span><span>Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/pages/find-skills.html">
+                <span>🛠️</span><span>Find Skills</span>
+            </a>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li class="profile-menu-section">SKILL EXCHANGE</li>
+        <li>
+            <a class="dropdown-item" href="/pages/matches.html">
+                <span>🤝</span><span>My Matches</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/pages/sessions.html">
+                <span>📅</span><span>My Sessions</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/pages/calendar.html">
+                <span>🗓️</span><span>Calendar</span>
+            </a>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li class="profile-menu-section">COMMUNICATION</li>
+        <li>
+            <a class="dropdown-item" href="/pages/chat.html">
+                <span>💬</span><span>Messages</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/pages/notifications.html">
+                <span>🔔</span><span>Notifications</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/pages/reviews.html">
+                <span>⭐</span><span>Reviews &amp; Ratings</span>
+            </a>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li>
+            <button
+                class="dropdown-item logout-dropdown"
+                type="button"
+                id="logoutBtn"
+            >
+                <span>🚪</span><span>Sign Out</span>
+            </button>
+        </li>
+    </ul>
+</div>
+
 
                     </div>
 
