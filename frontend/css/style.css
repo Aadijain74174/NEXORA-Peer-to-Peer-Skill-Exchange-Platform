@@ -570,3 +570,138 @@ footer { background: #11172b; color: rgba(255,255,255,0.65); }
         min-width: 185px;
     }
 }
+
+/* Add after the existing :root block in style.css */
+
+:root {
+    color-scheme: light;
+}
+
+/* DARK THEME */
+html[data-theme="dark"] {
+    color-scheme: dark;
+
+    --ink: #e5e7eb;
+    --muted: #a1a1aa;
+    --background: #111827;
+    --surface: #1f2937;
+    --soft: #303b50;
+    --border: #374151;
+
+    --primary: #9294ff;
+    --primary-dark: #b0b1ff;
+    --accent: #2dd4bf;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --danger: #fb7185;
+
+    --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Apply theme colors across the application */
+body {
+    background: var(--background);
+    color: var(--ink);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+html[data-theme="dark"] .app-navbar {
+    background: rgba(17, 24, 39, 0.96) !important;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .card-soft,
+html[data-theme="dark"] .feature-card,
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .hero-panel,
+html[data-theme="dark"] .calendar-cell {
+    background-color: var(--surface);
+    color: var(--ink);
+    border-color: var(--border);
+}
+
+html[data-theme="dark"] .bg-white {
+    background-color: var(--surface) !important;
+}
+
+html[data-theme="dark"] .text-dark,
+html[data-theme="dark"] .navbar-light,
+html[data-theme="dark"] .table {
+    color: var(--ink) !important;
+}
+
+html[data-theme="dark"] .text-secondary,
+html[data-theme="dark"] .text-muted {
+    color: var(--muted) !important;
+}
+
+html[data-theme="dark"] .border,
+html[data-theme="dark"] .border-top,
+html[data-theme="dark"] .border-bottom {
+    border-color: var(--border) !important;
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]) {
+    background-color: #111827;
+    color: var(--ink);
+    border-color: var(--border);
+}
+
+html[data-theme="dark"] .form-control::placeholder,
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #9ca3af;
+}
+
+html[data-theme="dark"] .table {
+    --bs-table-bg: var(--surface);
+    --bs-table-color: var(--ink);
+    --bs-table-border-color: var(--border);
+    --bs-table-striped-bg: #263244;
+    --bs-table-striped-color: var(--ink);
+    --bs-table-hover-bg: #303b50;
+    --bs-table-hover-color: var(--ink);
+}
+
+html[data-theme="dark"] .dropdown-menu {
+    background-color: var(--surface);
+    border-color: var(--border);
+}
+
+html[data-theme="dark"] .dropdown-item {
+    color: var(--ink);
+}
+
+html[data-theme="dark"] .dropdown-item:hover,
+html[data-theme="dark"] .dropdown-item:focus {
+    background-color: var(--soft);
+    color: var(--ink);
+}
+
+html[data-theme="dark"] .app-navbar .navbar-toggler {
+    border-color: var(--border);
+}
+
+html[data-theme="dark"] .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+html[data-theme="dark"] .empty-state,
+html[data-theme="dark"] .chat-messages {
+    background-color: var(--surface);
+    color: var(--ink);
+    border-color: var(--border);
+}
+
+/* Keep the dark landing-page hero consistent */
+html[data-theme="dark"] .hero {
+    background: #0b1120;
+}
+
+html[data-theme="dark"] footer {
+    background: #0b1120;
+    color: #cbd5e1;
+}

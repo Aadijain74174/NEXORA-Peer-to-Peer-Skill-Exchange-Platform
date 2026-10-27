@@ -447,9 +447,78 @@ function connectGlobalSocket() {
     });
 }
 
+/* Theme management for NEXORA */
+
+function applyTheme(theme) {
+    const selectedTheme = theme === "dark" ? "dark" : "light";
+
+    document.documentElement.setAttribute(
+        "data-theme",
+        selectedTheme
+    );
+
+    localStorage.setItem("nexora-theme", selectedTheme);
+
+    const button = document.getElementById("themeToggle");
+
+    if (button) {
+        const isDark = selectedTheme === "dark";
+
+        button.innerHTML = isDark
+            ? '<span class="tool-icon">☀️</span><span class="theme-label">Light</span>'
+            : '<span class="tool-icon">🌙</span><span class="theme-label">Dark</span>';
+
+        button.setAttribute(
+            "aria-label",
+            isDark ? "Switch to light theme" : "Switch to dark theme"
+        );
+
+        button.setAttribute("aria-pressed", String(isDark));
+    }
+}
+
+function initializeTheme() {
+    const savedTheme = localStorage.getItem("nexora-theme") || "light";
+
+    applyTheme(savedTheme);
+
+    const navbarTools = document.querySelector(".navbar-tools");
+
+    if (!navbarTools || document.getElementById("themeToggle")) {
+        return;
+    }
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.id = "themeToggle";
+    button.className = "nav-tool theme-toggle";
+    button.addEventListener("click", () => {
+        const currentTheme =
+            document.documentElement.getAttribute("data-theme");
+
+        applyTheme(currentTheme === "dark" ? "light" : "dark");
+    });
+
+    navbarTools.prepend(button);
+
+    // Display the correct icon and label.
+    applyTheme(savedTheme);
+}
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
+    // Apply the saved theme before rendering the navbar.
+    applyTheme(localStorage.getItem("nexora-theme") || "light");
+
     renderNavbar();
+
+    // Add the toggle after renderNavbar creates the navigation.
+    initializeTheme();
+
     refreshNotificationCount();
     connectGlobalSocket();
+
     window.setInterval(refreshNotificationCount, 30000);
 });

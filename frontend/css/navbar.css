@@ -369,3 +369,38 @@
         padding: 6px 10px;
     }
 }
+
+
+/* Light and dark theme toggle */
+.theme-toggle {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink) !important;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 7px 10px;
+}
+
+.theme-toggle:hover {
+    background: var(--soft);
+    color: var(--primary) !important;
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+.theme-toggle .theme-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-tools .theme-toggle {
+        margin: 4px 0;
+    }
+}
