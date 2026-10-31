@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
     role: { type: String, enum: ["user", "admin"], default: "user" },
     isBlocked: { type: Boolean, default: false },
     bio: { type: String, default: "", maxlength: 1000 },
+    profileImage: { type: String, default: "" },
     location: { type: String, default: "", maxlength: 120 },
     education: { type: String, default: "", maxlength: 160 },
     experienceLevel: { type: String, enum: ["Beginner", "Intermediate", "Advanced"], default: "Beginner" },
