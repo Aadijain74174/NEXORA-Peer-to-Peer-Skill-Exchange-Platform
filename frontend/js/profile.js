@@ -4,6 +4,62 @@ const profileForm = document.getElementById("profileForm");
 const messageBox = document.getElementById("msg");
 const goalsContainer = document.getElementById("goals");
 
+// PROFILE PHOTO UPLOAD
+const profilePhotoInput = document.getElementById("profilePhoto");
+const profilePreview = document.getElementById("profilePreview");
+
+if (profilePhotoInput && profilePreview) {
+
+    // Preview selected photo
+    profilePhotoInput.addEventListener("change", () => {
+        const file = profilePhotoInput.files[0];
+
+        if (!file) return;
+
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+        if (!allowedTypes.includes(file.type)) {
+            toast("Only JPG, PNG and WEBP images are allowed.", "danger");
+            profilePhotoInput.value = "";
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            toast("Image size must be less than 5 MB.", "danger");
+            profilePhotoInput.value = "";
+            return;
+        }
+
+        profilePreview.src = URL.createObjectURL(file);
+    });
+
+    // Upload selected photo
+    profilePhotoInput.addEventListener("change", async () => {
+        const file = profilePhotoInput.files[0];
+
+        if (!file) return;
+
+        try {
+            const currentUser = getUser();
+            const formData = new FormData();
+
+            formData.append("profilePhoto", file);
+
+            const data = await api(`/users/${currentUser._id}/profile-photo`, {
+                method: "POST",
+                body: formData,
+            });
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            profilePreview.src = `${data.user.profileImage}?t=${Date.now()}`;
+
+            toast("Profile photo uploaded successfully!");
+        } catch (error) {
+            toast(error.message || "Photo upload failed.", "danger");
+        }
+    });
+}
 function skillArray(value) {
     return [...new Set(String(value || "").split(",").map((item) => item.trim()).filter(Boolean))];
 }
@@ -79,6 +135,9 @@ async function loadProfile() {
     try {
         const data = await api("/auth/me");
         const user = data.user;
+        if (profilePreview && user.profileImage) {
+            profilePreview.src = user.profileImage;
+        }
         localStorage.setItem("user", JSON.stringify(user));
 
         ["name", "email", "education", "location", "experienceLevel", "availability", "bio"].forEach((key) => {

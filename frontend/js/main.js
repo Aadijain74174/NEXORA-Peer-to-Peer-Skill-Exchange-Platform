@@ -186,12 +186,11 @@ function renderNavbar() {
     );
 
     const mainLinks = [
-        ["dashboard", "Dashboard", "/pages/dashboard.html"],
-        ["find-skills", "Find Skills", "/pages/find-skills.html"],
-        ["matches", "Matches", "/pages/matches.html"],
-        ["requests", "Requests", "/pages/requests.html"],
-        ["sessions", "Sessions", "/pages/sessions.html"],
-        ["chat", "Chat", "/pages/chat.html"],
+        ["dashboard", "🏠 Dashboard", "/pages/dashboard.html"],
+        ["find-skills", "🔍 Find Skills", "/pages/find-skills.html"],
+        ["study-groups", "👥 Study Groups", "/pages/study-groups.html"],
+        ["sessions", "📅 Sessions", "/pages/sessions.html"],
+        ["chat", "💬Chat", "/pages/chat.html"],
     ];
 
     const navLinks = mainLinks
@@ -205,28 +204,6 @@ function renderNavbar() {
         `)
         .join("");
 
-    const moreActivePages = [
-        "calendar",
-        "analytics",
-        "credits",
-        "study-groups",
-        "contact",
-        "admin",
-    ];
-
-    const moreIsActive = moreActivePages.includes(page);
-
-    const adminLink = user.role === "admin"
-        ? `
-            <a
-                class="dropdown-item ${page === "admin" ? "active" : ""}"
-                href="/pages/admin.html"
-            >
-                <span class="more-icon">⚙️</span>
-                <span>Admin</span>
-            </a>
-        `
-        : "";
 
     host.innerHTML = `
         <nav class="navbar navbar-expand-xl app-navbar sticky-top">
@@ -271,150 +248,224 @@ function renderNavbar() {
 
                     <div class="navbar-nav mx-xl-auto nav-main-links">
 
-                        ${navLinks}
+    ${navLinks}
 
+</div>
 
-                        <!-- More Menu -->
+<!-- Right side -->
 
-                        <div class="nav-item dropdown">
+<div class="navbar-tools">
 
-                            <a
-                                class="nav-link dropdown-toggle ${moreIsActive ? "active" : ""}"
-                                href="#"
-                                id="moreMenu"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                More
-                            </a>
+                      
 
-                            <ul
-                                class="dropdown-menu dropdown-menu-end more-menu"
-                                aria-labelledby="moreMenu"
-                            >
+         <!-- COMPLETE PROFILE DROPDOWN -->
 
-                                <li>
-                                    <a
-                                        class="dropdown-item ${page === "calendar" ? "active" : ""}"
-                                        href="/pages/calendar.html"
-                                    >
-                                        <span class="more-icon">📅</span>
-                                        <span>Calendar</span>
-                                    </a>
-                                </li>
+<div class="nav-item dropdown profile-dropdown-wrap">
 
-                                <li>
-                                    <a
-                                        class="dropdown-item ${page === "analytics" ? "active" : ""}"
-                                        href="/pages/analytics.html"
-                                    >
-                                        <span class="more-icon">📊</span>
-                                        <span>Analytics</span>
-                                    </a>
-                                </li>
+    <button
+        class="nav-tool profile-tool profile-dropdown-toggle dropdown-toggle"
+        type="button"
+        id="profileDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        aria-label="Open profile menu"
+    >
+        <span class="nav-avatar">${initial}</span>
+        <span class="tool-label user-name">${displayName}</span>
+    </button>
 
-                                <li>
-                                    <a
-                                        class="dropdown-item ${page === "credits" ? "active" : ""}"
-                                        href="/pages/credits.html"
-                                    >
-                                        <span class="more-icon">💰</span>
-                                        <span>Credits</span>
-                                    </a>
-                                </li>
+    <ul
+        class="dropdown-menu dropdown-menu-end profile-dropdown-menu"
+        aria-labelledby="profileDropdown"
+    >
 
-                                <li>
-                                    <a
-                                        class="dropdown-item ${page === "study-groups" ? "active" : ""}"
-                                        href="/pages/study-groups.html"
-                                    >
-                                        <span class="more-icon">👥</span>
-                                        <span>Study Groups</span>
-                                    </a>
-                                </li>
+        <!-- USER INFORMATION -->
 
-                                <li>
-                                    <a
-                                        class="dropdown-item ${page === "contact" ? "active" : ""}"
-                                        href="/pages/contact.html"
-                                    >
-                                        <span class="more-icon">📩</span>
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
+        <li class="profile-menu-header">
 
-                                ${adminLink}
+            <div class="profile-menu-avatar">
+                ${initial}
+            </div>
 
-                            </ul>
+            <div class="profile-menu-details">
 
-                        </div>
+                <div class="profile-menu-name">
+                    ${displayName}
+                </div>
 
-                    </div>
-
-
-                    <!-- Right side -->
-
-                    <div class="navbar-tools">
-
-                        <!-- Notifications -->
-
-                        <a
-                            class="nav-tool notification-tool ${page === "notifications" ? "active" : ""}"
-                            href="/pages/notifications.html"
-                            aria-label="Notifications"
-                        >
-                            <span class="tool-icon">🔔</span>
-
-                            <span
-                                id="notifCount"
-                                class="notification-badge d-none"
-                            >
-                                0
-                            </span>
-                        </a>
-
-
-                        <!-- Profile -->
-
-                        <a
-                            class="nav-tool profile-tool ${page === "profile" ? "active" : ""}"
-                            href="/pages/profile.html"
-                            aria-label="Profile"
-                        >
-                            <span
-                                class="nav-avatar"
-                                id="navbarAvatar"
-                            >
-                                ${initial}
-                            </span>
-
-                            <span
-                                id="navbarUserName"
-                                class="tool-label user-name"
-                            >
-                                ${displayName}
-                            </span>
-                        </a>
-
-
-                        <!-- Logout -->
-
-                        <button
-                            class="btn btn-sm btn-outline-danger logout-btn"
-                            type="button"
-                            id="logoutBtn"
-                        >
-                            Logout
-                        </button>
-
-                    </div>
-
+                <div class="profile-menu-email">
+                    ${escapeHtml(user.email || "")}
                 </div>
 
             </div>
 
-        </nav>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+
+        <!-- ACCOUNT -->
+
+        <li class="profile-menu-section">MY ACCOUNT</li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/profile.html">
+                <span>👤</span>
+                <span>My Profile</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/skills.html">
+                <span>🎯</span>
+                <span>My Skills</span>
+            </a>
+        </li>
+
+
+        <li><hr class="dropdown-divider"></li>
+
+
+        <!-- SKILL EXCHANGE -->
+
+        <li class="profile-menu-section">SKILL EXCHANGE</li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/matches.html">
+                <span>🤝</span>
+                <span>Matches</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/requests.html">
+                <span>📨</span>
+                <span>Requests</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/find-skills.html">
+                <span>🔍</span>
+                <span>Explore Skills</span>
+            </a>
+        </li>
+
+
+        <li><hr class="dropdown-divider"></li>
+
+
+        <!-- LEARNING -->
+
+        <li class="profile-menu-section">LEARNING & PRODUCTIVITY</li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/calendar.html">
+                <span>📅</span>
+                <span>Calendar</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/analytics.html">
+                <span>📊</span>
+                <span>Analytics</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/credits.html">
+                <span>💰</span>
+                <span>Credits</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/study-groups.html">
+                <span>👥</span>
+                <span>Study Groups</span>
+            </a>
+        </li>
+
+
+        <li><hr class="dropdown-divider"></li>
+
+
+        <!-- COMMUNICATION -->
+
+        <li class="profile-menu-section">COMMUNICATION</li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/chat.html">
+                <span>💬</span>
+                <span>Messages</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/notifications.html">
+                <span>🔔</span>
+                <span>Notifications</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/reviews.html">
+                <span>⭐</span>
+                <span>Reviews &amp; Ratings</span>
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="/pages/contact.html">
+                <span>📩</span>
+                <span>Contact Us</span>
+            </a>
+        </li>
+
+
+        <!-- ADMIN: ONLY FOR ADMIN USERS -->
+
+        ${user.role === "admin" ? `
+            <li><hr class="dropdown-divider"></li>
+
+            <li class="profile-menu-section">ADMINISTRATION</li>
+
+            <li>
+                <a class="dropdown-item" href="/pages/admin.html">
+                    <span>⚙️</span>
+                    <span>Admin Dashboard</span>
+                </a>
+            </li>
+        ` : ""}
+
+
+        <!-- LOGOUT AT THE BOTTOM -->
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li>
+            <button
+                class="dropdown-item logout-dropdown"
+                type="button"
+                id="logoutBtn"
+            >
+                <span>🚪</span>
+                <span>Logout</span>
+            </button>
+        </li>
+
+            </ul>
+
+            </div>
+
+            </div>
+
+            </div>
+
+            </div>
+
+            </nav>
     `;
 
     document
@@ -447,10 +498,79 @@ function connectGlobalSocket() {
     });
 }
 
+/* Theme management for NEXORA */
+
+function applyTheme(theme) {
+    const selectedTheme = theme === "dark" ? "dark" : "light";
+
+    document.documentElement.setAttribute(
+        "data-theme",
+        selectedTheme
+    );
+
+    localStorage.setItem("nexora-theme", selectedTheme);
+
+    const button = document.getElementById("themeToggle");
+
+    if (button) {
+        const isDark = selectedTheme === "dark";
+
+        button.innerHTML = isDark
+            ? '<span class="tool-icon">☀️</span><span class="theme-label">Light</span>'
+            : '<span class="tool-icon">🌙</span><span class="theme-label">Dark</span>';
+
+        button.setAttribute(
+            "aria-label",
+            isDark ? "Switch to light theme" : "Switch to dark theme"
+        );
+
+        button.setAttribute("aria-pressed", String(isDark));
+    }
+}
+
+function initializeTheme() {
+    const savedTheme = localStorage.getItem("nexora-theme") || "light";
+
+    applyTheme(savedTheme);
+
+    const navbarTools = document.querySelector(".navbar-tools");
+
+    if (!navbarTools || document.getElementById("themeToggle")) {
+        return;
+    }
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.id = "themeToggle";
+    button.className = "nav-tool theme-toggle";
+    button.addEventListener("click", () => {
+        const currentTheme =
+            document.documentElement.getAttribute("data-theme");
+
+        applyTheme(currentTheme === "dark" ? "light" : "dark");
+    });
+
+    navbarTools.prepend(button);
+
+    // Display the correct icon and label.
+    applyTheme(savedTheme);
+}
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
+    // Apply the saved theme before rendering the navbar.
+    applyTheme(localStorage.getItem("nexora-theme") || "light");
+
     renderNavbar();
+
+    // Add the toggle after renderNavbar creates the navigation.
+    initializeTheme();
+
     refreshNotificationCount();
     connectGlobalSocket();
+
     window.setInterval(refreshNotificationCount, 30000);
         const botCss = document.createElement("link");
     botCss.rel = "stylesheet";

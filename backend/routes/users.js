@@ -1,9 +1,43 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const Session = require("../models/Session");
 const ExchangeRequest = require("../models/ExchangeRequest");
 const Review = require("../models/Review");
 const auth = require("../middleware/auth");
+// Profile photo upload configuration
+const uploadDir = path.join(__dirname, "../uploads");
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueName =
+            `profile-${req.user.id}-${Date.now()}${path.extname(file.originalname).toLowerCase()}`;
+        cb(null, uniqueName);
+    },
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+        if (!allowedTypes.includes(file.mimetype)) {
+            return cb(new Error("Only JPG, PNG and WEBP images are allowed."));
+        }
+
+        cb(null, true);
+    },
+});
 
 function escapeRegex(value) {
     return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -83,6 +117,78 @@ router.get("/stats/overview", auth, async (req, res) => {
     }
 });
 
+// Upload profile photo
+router.post("/:id/profile-photo", auth, (req, res, next) => {
+    upload.single("profilePhoto")(req, res, (error) => {
+        if (error) {
+            const message =
+                error.code === "LIMIT_FILE_SIZE"
+                    ? "Image size must be less than 5 MB."
+                    : error.message;
+
+            return res.status(400).json({
+                success: false,
+                message,
+            });
+        }
+
+        next();
+    });
+}, async (req, res) => {
+    try {
+        // User can upload only their own profile photo
+        if (String(req.user.id) !== String(req.params.id)) {
+            if (req.file) fs.unlinkSync(req.file.path);
+
+            return res.status(403).json({
+                success: false,
+                message: "You can only update your own profile photo.",
+            });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "Please select a photo.",
+            });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                profileImage: `/uploads/${req.file.filename}`,
+            },
+            {
+                new: true,
+                runValidators: true,
+            }
+        ).select("-password");
+
+        if (!user) {
+            fs.unlinkSync(req.file.path);
+
+            return res.status(404).json({
+                success: false,
+                message: "User not found.",
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Profile photo uploaded successfully.",
+            user,
+        });
+    } catch (error) {
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+
+        res.status(500).json({
+            success: false,
+            message: "Could not upload profile photo.",
+        });
+    }
+});
 router.get("/:id", auth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
