@@ -59,7 +59,8 @@ app.use("/api/credits", require("./routes/credits"));
 app.use("/api/reports", require("./routes/reports"));
 app.use("/api/admin", require("./routes/admin"));
 app.use("/api/analytics", require("./routes/analytics"));
-
+app.use("/api/chatbot", require("./routes/chatbot"));
+app.use("/api/chatbot", require("./routes/chatbot"));
 app.get("/api/health", (req, res) => {
     res.json({
         success: true,
@@ -459,7 +460,7 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
 
-const PORT = Number(process.env.PORT) || 5000;
+const PORT = Number(process.env.PORT) || 5001;
 server.listen(PORT, () => {
     console.log(`Nexora running at http://localhost:${PORT}`);
 });
