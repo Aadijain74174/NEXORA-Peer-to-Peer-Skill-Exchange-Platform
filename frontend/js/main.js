@@ -572,4 +572,12 @@ document.addEventListener("DOMContentLoaded", () => {
     connectGlobalSocket();
 
     window.setInterval(refreshNotificationCount, 30000);
+        const botCss = document.createElement("link");
+    botCss.rel = "stylesheet";
+    botCss.href = "/css/chatbot.css";
+    document.head.appendChild(botCss);
+
+    const botJs = document.createElement("script");
+    botJs.src = "/js/chatbot.js";
+    document.body.appendChild(botJs);
 });
