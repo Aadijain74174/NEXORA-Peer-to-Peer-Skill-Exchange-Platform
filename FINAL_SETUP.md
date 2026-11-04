@@ -11,7 +11,7 @@ npm install
 Create `.env` in the project root next to `package.json`:
 
 ```env
-PORT=5000
+PORT=5001
 MONGO_URI=mongodb://127.0.0.1:27017/peer_skill_exchange
 JWT_SECRET=replace_with_a_long_random_secret
 ```
@@ -26,7 +26,7 @@ Make sure the MongoDB Windows service or your Atlas database is available.
 npm start
 ```
 
-Open `http://localhost:5000`.
+Open `http://localhost:5001`.
 
 ## 5. Main implemented areas
 
