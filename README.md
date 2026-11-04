@@ -294,7 +294,7 @@ Copy `.env.example` to `.env`.
 Typical local configuration:
 
 ```env
-PORT=5000
+PORT=5001
 MONGO_URI=mongodb://127.0.0.1:27017/peer_skill_exchange
 JWT_SECRET=replace_with_a_long_random_secret
 ADMIN_EMAIL=admin@example.com
@@ -320,7 +320,7 @@ npm start
 Open:
 
 ```text
-http://localhost:5000
+http://localhost:5001
 ```
 
 For development with automatic restart:
