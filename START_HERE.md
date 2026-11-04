@@ -39,7 +39,7 @@ Create `.env` next to `package.json` using `.env.example`.
 Example for local MongoDB:
 
 ```env
-PORT=5000
+PORT=5001
 MONGO_URI=mongodb://127.0.0.1:27017/peer_skill_exchange
 JWT_SECRET=replace_with_a_long_random_secret
 ADMIN_EMAIL=admin@example.com
